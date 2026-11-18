@@ -1,0 +1,12 @@
+from fastapi import APIRouter
+
+from app.schemas import HealthRead
+
+router = APIRouter(tags=["health"])
+
+
+@router.get("/health", response_model=HealthRead)
+def health_check() -> HealthRead:
+    from datetime import date
+
+    return HealthRead(status="ok", date=date.today())
