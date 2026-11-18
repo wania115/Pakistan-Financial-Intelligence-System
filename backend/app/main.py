@@ -3,10 +3,10 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 
-from app.api import health_router, indicators_router
+from app.api import company_reports_router, health_router, indicators_router
 from app.config import settings
 from app.database import Base, SessionLocal, engine
-from app.models import Indicator
+from app.models import CompanyReport, Indicator
 
 
 INDICATOR_CATALOG = [
@@ -60,9 +60,10 @@ INDICATOR_CATALOG = [
     },
 ]
 
-app = FastAPI(title=settings.app_name, debug=settings.debug, version="0.1.0")
+app = FastAPI(title=settings.app_name, debug=settings.debug, version="0.2.0")
 app.include_router(health_router)
 app.include_router(indicators_router)
+app.include_router(company_reports_router)
 static_dir = __import__("pathlib").Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
